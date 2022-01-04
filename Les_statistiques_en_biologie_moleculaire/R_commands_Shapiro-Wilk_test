@@ -1,4 +1,0 @@
-x=c(7.0,7.5,9.3,13.1,8.4,4.8,3.0,16.1,16.6,2.5,7.6,2.3,10.5,9.7,12.8)
-y=c(3.6,40.2,2.9,40.5,2.2,0.8,27.6,43.3,3.6,1.6,44.1,44.7,4.5,15.7,46.8)
-shapiro.test(x) # p-value = 0.5383 : le jeu de données "x" semble échantillonné d'une distribution normale
-shapiro.test(y) # p-value = 0.002349 : le jeu de données "y" ne semble pas échantillonné d'une distribution normale
