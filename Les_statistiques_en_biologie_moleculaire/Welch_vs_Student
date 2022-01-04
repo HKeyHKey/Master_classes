@@ -6,7 +6,7 @@ shapiro.test(y) # p-value = 0.1279 : le jeu de données "y" semble échantillonn
 concatenated=c(x,y) # concaténation des jeux de données "x" et "y"
 description=as.factor(c(rep('X',length(x)),rep('Y',length(y)))) # annotation de chaque point dans la concaténation, avec le nom de son échantillon ("X" ou "Y")
 library(car)
-leveneTest(concatenated,description) # p-value = 0.343
+leveneTest(concatenated,description) # p-value = 0.343 : les variances sont homogènes
 
 t.test(x,y,var.equal=TRUE) # Comparaison des jeux de données x et y par le t-test de Student (p-value = 0.03834)
 t.test(x,y,var.equal=FALSE) # Comparaison des jeux de données x et y par le t-test de Welch (p-value = 0.07332)
