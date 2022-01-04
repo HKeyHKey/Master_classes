@@ -1,0 +1,46 @@
+# Ci-dessous : représentation graphique
+
+trace=function(n1,n2,m1,m2,s1,s2)
+{
+pop1=rnorm(n1,m1,s1)
+pop2=rnorm(n2,m2,s2)
+out1=hist(pop1,xlim=x_range,breaks=c(min(x_range):max(x_range)))
+out2=hist(pop2,xlim=x_range,breaks=c(min(x_range):max(x_range)))
+y_range=c(0,max(c(out1$counts,out2$counts)))
+
+pval=signif(t.test(pop1,pop2)$p.valu,digits=4)
+pdf(paste('Histograms_',n1,'_vs_',n2,'_with_m1_',m1,'_m2_',m2,'_with_s1_',s1,'_s2_',s2,'.pdf',sep=''),width=7,height=7)
+hist(pop1,xlim=x_range,breaks=c(min(x_range):max(x_range)),ylim=y_range,border='red',xlab="Valeur",ylab="Nombre d'observations",main=paste('p=',pval,sep=''))
+par(new=T)
+hist(pop2,xlim=x_range,breaks=c(min(x_range):max(x_range)),ylim=y_range,border='green',axes=F,xlab='',ylab='',main='')
+par(new=T)
+x=x_range[1]+(x_range[2]-x_range[1])*c(0:100)/100
+plot(x,dnorm(x,m1,s1),col='red',ty='l',axes=F,xlab='',ylab='')
+par(new=T)
+plot(x,dnorm(x,m2,s2),col='green',ty='l',axes=F,xlab='',ylab='')
+dev.off()
+}
+
+# Ci-dessus : représentation graphique
+
+
+
+x_range=c(0,50)
+
+m1=20 # moyenne de la population échantillonnée n°1
+m2=25 # moyenne de la population échantillonnée n°2
+s1=3 # écart-type de la population échantillonnée n°1
+s2=4 # écart-type de la population échantillonnée n°2
+n1=3 # nombre de réplicats dans l'échantillon n°1
+n2=3 # nombre de réplicats dans l'échantillon n°2
+
+trace(n1,n2,m1,m2,s1,s2) # Notez que cette fonction fait appel à un tirage aléatoire : les jeux de données générés seront différents d'une exécution des commandes à l'autre (donc également différents des exemples montrés dans la vidéo), mais devraient indiquer la même tendance
+n1=30
+n2=30
+trace(n1,n2,m1,m2,s1,s2) # Notez que cette fonction fait appel à un tirage aléatoire : les jeux de données générés seront différents d'une exécution des commandes à l'autre (donc également différents des exemples montrés dans la vidéo), mais devraient indiquer la même tendance
+m2=30
+trace(n1,n2,m1,m2,s1,s2) # Notez que cette fonction fait appel à un tirage aléatoire : les jeux de données générés seront différents d'une exécution des commandes à l'autre (donc également différents des exemples montrés dans la vidéo), mais devraient indiquer la même tendance
+m2=25
+s1=8
+s2=10
+trace(n1,n2,m1,m2,s1,s2) # Notez que cette fonction fait appel à un tirage aléatoire : les jeux de données générés seront différents d'une exécution des commandes à l'autre (donc également différents des exemples montrés dans la vidéo), mais devraient indiquer la même tendance
