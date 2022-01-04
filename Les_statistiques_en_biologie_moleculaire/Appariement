@@ -1,0 +1,30 @@
+avant=c(60,65,68,69,71,72,75,78,82,90,95)
+apres=c(58,57,63,65,64,68,74,76,80,85,90)
+
+shapiro.test(avant) # p-value = 0.6674 : le jeu de données "avant" semble échantillonné d'une distribution normale
+shapiro.test(apres) # p-value = 0.5931 : le jeu de données "apres" semble échantillonné d'une distribution normale
+
+library(car)
+leveneTest(c(avant,apres),as.factor(c(rep(1,length(avant)),rep(2,length(apres))))) # p-value = 0.7364 : les variances sont homogènes
+
+pval_unpaired=signif(t.test(avant,apres,var.equal=TRUE)$p.value,digits=4) # p-value = 0.3829 sans appariement des données
+pval_paired=signif(t.test(avant,apres,paired=TRUE)$p.value,digits=4) # p-value = 0.0001105 avec appariement des données
+
+# Représentation graphique :
+y_range=c(55,100)
+pdf('Unpaired_test.pdf',width=4,height=7)
+plot(1,1,xlim=c(0.5,2.5),ylim=y_range,type='n',xlab='',ylab='Masse corporelle (kg)',axes=F,main=paste('p=',pval_unpaired,sep=''))
+axis(1,labels=c('Avant','Après'),at=c(1,2))
+axis(2)
+points(rep(1,length(avant)),avant)
+points(rep(2,length(apres)),apres)
+dev.off()
+
+pdf('Paired_test.pdf',width=4,height=7)
+plot(1,1,xlim=c(0.5,2.5),ylim=y_range,type='n',xlab='',ylab='Masse corporelle (kg)',axes=F,main=paste('p=',pval_paired,sep=''))
+axis(1,labels=c('Avant','Après'),at=c(1,2))
+axis(2)
+points(rep(1,length(avant)),avant)
+points(rep(2,length(apres)),apres)
+arrows(rep(1.05,length(avant)),avant,rep(1.95,length(avant)),apres,length=0.1)
+dev.off()
