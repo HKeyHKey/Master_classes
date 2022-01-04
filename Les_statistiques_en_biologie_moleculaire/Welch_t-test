@@ -5,4 +5,4 @@ shapiro.test(x) # p-value = 0.8671 : le jeu de données "x" semble échantillonn
 shapiro.test(y) # p-value = 0.1279 : le jeu de données "y" semble échantillonné d'une distribution normale
 
 t.test(x,y,var.equal=FALSE) # Comparaison des jeux de données x et y par le t-test de Welch
-t.test(x,y) # Également : comparaison des jeux de données x et y par le t-test de Welch ("var.equal" est réglé sur "FALSE" apr défaut)
+t.test(x,y) # Également : comparaison des jeux de données x et y par le t-test de Welch ("var.equal" est réglé sur "FALSE" par défaut)
