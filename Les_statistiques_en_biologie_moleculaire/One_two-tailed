@@ -10,5 +10,5 @@ leveneTest(concatenated,description) # p-value = 0.343 : les variances sont homo
 
 t.test(x,y,var.equal=TRUE,alternative="two.sided") # t-test "two-tailed" (p-value = 0.03834)
 t.test(x,y,var.equal=TRUE) # Également t-test "two-tailed" (p-value = 0.03834) : "alternative" est réglé sur "two.sided" par défaut)
-t.test(x,y,var.equal=TRUE,alternative="less") # t-test "one-tailed" pour interroger l'hypothèse que la moyenne de la population échantillonnée en "x" est inférieure à la moyenne échantillonnée en "y" (p-value = 0.01917)
+t.test(x,y,var.equal=TRUE,alternative="less") # t-test "one-tailed" pour interroger l'hypothèse que la moyenne de la population échantillonnée en "x" est inférieure à la moyenne échantillonnée en "y" (p-value = 0.01917 : la moitié de la p-value de la version "two-tailed")
 t.test(x,y,var.equal=TRUE,alternative="greater") # t-test "one-tailed" pour interroger l'hypothèse que la moyenne de la population échantillonnée en "x" est supérieure à la moyenne échantillonnée en "y" (p-value = 0.9808)
