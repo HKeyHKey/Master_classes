@@ -1,0 +1,24 @@
+values=c(10.50,12.30,8.95,8.59,9.66,6.78,9.37,11.70,11.10,13.20,14.00,18.90,12.80,14.00,15.50,6.80,10.10,7.90,6.59,12.70)
+strain=c(rep('OregonR',5),rep('yw',5),rep('Canton-S',5),rep('Berlin',5))
+
+# Ci-dessous : afficher le contenu du jeu de données :
+data_list=list(strain,values)
+names(data_list)=c('Souche','Valeur')
+print(as.data.frame(data_list))
+
+# Ci-dessous : vérification de la normalité et de l'homogénéité des variances :
+for (s in unique(strain))
+{
+print(paste(s,":"))
+print(shapiro.test(values[strain==s])$p.value)
+} # les p-values du test de Shapiro-Wilk sur chacun des 4 échantillons sont élevées
+library(car)
+leveneTest(values,as.factor(strain)) # p-value = 0.8664 : les variances sont homogènes
+
+# Ci-dessous : ANOVA unidimensionnelle :
+summary(aov(values~strain)) # p-value = 0.00267 pour la variable « strain » : la différence entre les jeux de valeurs des différentes souches est significative (mais il reste à déterminer quelle(s) souche(s) se comporte(nt) différemment des autres)
+
+# Ci-dessous : tests post-hoc pour déterminer l'origine de l'effet de la variable « souche » :
+pairwise.t.test(values,strain) # les t-tests comparant « Canton-S » à chacune des 3 autres souches donnent des p-values basses, alors que les comparaisons deux à deux des 3 autres souches donnent des p-values élevées : il apparaît que « OregonR », « yw » et « Berlin » répondent de manière similaire entre elles, et que « Canton-S » en diffère significativement
+# Représentation graphique :
+boxplot(values~strain)
