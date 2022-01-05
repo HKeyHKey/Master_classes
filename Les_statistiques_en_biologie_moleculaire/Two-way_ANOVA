@@ -1,0 +1,27 @@
+values=c(6.80,10.10,7.90,6.59,12.70,19.00,23.90,17.80,19.00,20.50,8.81,9.01,9.71,11.20,9.35,7.93,7.21,12.40,12.60,6.98,29.00,26.90,30.20,29.90,31.10,26.90,29.50,31.20,31.40,32.20,27.50,29.70,28.20,29.20,27.00,25.90,33.10,30.20,31.60,30.60)
+strain=rep(c(rep('OregonR',5),rep('yw',5),rep('Canton-S',5),rep('Berlin',5)),2)
+age=c(rep(5,20),rep(15,20))
+
+# Ci-dessous : afficher le contenu du jeu de données :
+data_list=list(strain,age,values)
+names(data_list)=c('Souche','Âge','Valeur')
+print(as.data.frame(data_list))
+
+# Ci-dessous : vérification de la normalité et de l'homogénéité des variances :
+for (s in unique(strain))
+{
+print(paste(s,":"))
+for (a in unique(age))
+{
+print(paste('  âge =',a,':'))
+print(shapiro.test(values[strain==s & age==a])$p.value)
+}
+} # les p-values du test de Shapiro-Wilk sur chacun des 4 échantillons sont élevées
+library(car)
+leveneTest(values~as.factor(strain)*as.factor(age)) # p-value = 0.8152 : les variances sont homogènes
+
+# Ci-dessous : ANOVA bidimensionnelle :
+summary(aov(values~strain+age)) # p-value = 0.000147 pour la variable « strain » et < 2e-16 pour la variable « age » : chacune des deux variables semble avoir un effet significatif sur la réponse.
+
+# Puisque chacune des deux variables a un effet, il est possible que leur interaction en ait un également : 
+summary(aov(values~strain*age)) # p-value = 3.17e-07 pour la variable « strain », < 2e-16 pour la variable « age », et 6.25e-06 pour l'interaction entre ces deux variables (il semble donc que non seulement l'âge a un effet, la souche a un effet, mais d'autre part, que le vieillissement affecte différemment les différentes souches)
