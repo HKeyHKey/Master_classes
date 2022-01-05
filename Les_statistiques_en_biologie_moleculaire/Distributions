@@ -1,0 +1,20 @@
+condition1=c(10,12)
+condition2=c(30,30)
+table=cbind(condition1,condition2) # Définition de la table à 2 colonnes (une colonne contenant les comptages de « condition1 » et une colonne contenant les comptages de « condition2 »)
+
+chisq.test(table) # p-value = 0.908
+fisher.test(table) # p-value = 0.8053
+
+# Ci-dessous : erreur à ne pas commettre : normalisation en pourcentage, puis arrondi (e.g., les nombres 10 et 12 de « condition1 » sont convertis en « 45% » et « 55% ») :
+wrong_condition1=round(condition1*100/sum(condition1))
+wrong_condition2=round(condition2*100/sum(condition2))
+wrong_table=cbind(wrong_condition1,wrong_condition2)
+
+chisq.test(wrong_table) # p-value = 0.5711 (la p-value est faussée par la normalisation)
+fisher.test(wrong_table) # p-value = 0.5712 (la p-value est faussée par la normalisation)
+
+# Ci-dessous : génération d'une table (« table2 ») contenant de plus grands comptages que dans les « condition1 » et « condition2 » de « table » (500 fois plus), mais les mêmes rapports entre les comptages :
+table2=500*table
+
+chisq.test(table2) # p-value = 3.725e-16 (la p-value est plus basse pour « table2 » que pour « table », et les p-values du test du chi2 et du test exact de Fisher deviennent très semblables)
+fisher.test(table2) # p-value = 3.558e-16 (la p-value est plus basse pour « table2 » que pour « table », et les p-values du test du chi2 et du test exact de Fisher deviennent très semblables)
