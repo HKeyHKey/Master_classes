@@ -1,0 +1,27 @@
+# Ci-dessous : génération de données simulées (expression de 1000 gènes, en 3 réplicats « WT » et 3 réplicats « MUT » échantillonnés d'une même distribution normale pour ces deux génotypes) :
+
+names=paste('gene_',1:1000,sep='')
+values=c()
+for (i in 1:length(names))
+{
+m=runif(1,10,100)
+values=rbind(values,rnorm(6,m,3)) # remplissage du tableau de valeurs simulées (6 réplicats tirés au hasard dans une distribution normale de moyenne m, d'écart-type 3)
+}
+replicate_list=list(names,values[,1],values[,2],values[,3],values[,4],values[,5],values[,6])
+names(replicate_list)=c('Gène','WT_rep1','WT_rep2','WT_rep3','MUT_rep1','MUT_rep2','MUT_rep3')
+data=as.data.frame(replicate_list)
+
+# Ci-dessous : exécution des t-tests sur chacun des 1000 gènes, pour comparer les 3 réplicats « WT » aux 3 réplicats « MUT » :
+pvalues=c()
+for (i in 1:length(names))
+pvalues=append(pvalues,t.test(data[i,2:4],data[i,5:7],var.equal=TRUE)$p.value)
+
+print(paste("Sur les ",length(pvalues)," p-values, ",length(pvalues[pvalues<0.05])," sont inférieures à 0,05 (alors qu'elles ont été générées aléatoirement à partir de la même gaussienne pour les 2 génotypes).",sep=''))
+
+corrected1=p.adjust(pvalues,method="bonferroni") # Correction de Bonferroni (revient à multiplier chaque p-value par le nombre d'hypothèses testées : méthode souvent estimée trop stringente si le nombre d'hypothèses dépasse quelques centaines)
+corrected2=p.adjust(pvalues,method="BH") # Correction de Benjamini-Hochberg (revient à multiplier chaque p-value par un nombre de plus en plus grand, à mesure qu'on progresse vers les p-values les plus petites ; méthode moins stringente)
+
+print('Correction de Bonferroni :')
+print(paste("Sur les ",length(corrected1)," p-values corrigées, ",length(corrected1[corrected1<0.05])," sont inférieures à 0,05 (alors qu'elles ont été générées aléatoirement à partir de la même gaussienne pour les 2 génotypes).",sep=''))
+print('Correction de Benjamini-Hochberg :')
+print(paste("Sur les ",length(corrected2)," p-values corrigées, ",length(corrected2[corrected2<0.05])," sont inférieures à 0,05 (alors qu'elles ont été générées aléatoirement à partir de la même gaussienne pour les 2 génotypes).",sep=''))
