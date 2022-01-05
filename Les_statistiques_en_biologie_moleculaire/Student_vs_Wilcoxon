@@ -1,0 +1,13 @@
+x=c(9.91,13.60,8.05,9.00,7.08,11.50)
+y=c(6.16,21.10,20.10,16.50,17.30)
+
+shapiro.test(x) # p-value = 0.8671 : le jeu de données "x" semble échantillonné d'une distribution normale
+shapiro.test(y) # p-value = 0.1279 : le jeu de données "y" semble échantillonné d'une distribution normale
+
+concatenated=c(x,y) # concaténation des jeux de données "x" et "y"
+description=as.factor(c(rep('X',length(x)),rep('Y',length(y)))) # annotation de chaque point dans la concaténation, avec le nom de son échantillon ("X" ou "Y")
+library(car) # il faut charger le package "car" pour pouvoir utiliser la commande "leveneTest"
+leveneTest(concatenated,description) # p-value = 0.343 : les variances des distributions dont sont échantillonnés les jeux de données "x" et "y" sont homogènes
+
+t.test(x,y,var.equal=TRUE) # Comparaison des jeux de données x et y par le t-test de Student (p-value = 0.03834)
+wilcox.test(x,y) # Comparaison des jeux de données x et y par le test de Wilcoxon (également appelé « test de Mann-Whitney ») (p-value = 0.1255)
