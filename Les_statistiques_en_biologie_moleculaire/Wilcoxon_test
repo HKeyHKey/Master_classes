@@ -1,0 +1,10 @@
+x=c(15.2,15.9,11.4,14.4,13.0,18.9,18.7,11.5,19.4,10.1,17.8,13.2,36.7,30.0,30.6,38.3,33.4,39.6,36.9,37.1,38.6,37.6,39.6,36.5,36.9)
+y=c(29.1,20.3,28.9,25.0,21.8,33.5,31.0,18.5,62.1,66.7,50.7,68.1,58.3,63.6,51.7,53.1,59.1,68.8,60.7,63.8)
+
+shapiro.test(x) # p-value = 0.0008273 : le jeu de données "x" ne semble pas échantillonné d'une distribution normale
+shapiro.test(y) p-value = 0.009882 : le jeu de données "y" ne semble pas échantillonné d'une distribution normale
+
+shapiro.test(log(x)) # p-value = 0.00148 : les logarithmes des valeurs de "x" ne semblent pas non plus échantillonnés d'une distribution normale
+shapiro.test(log(y)) # p-value = 0.005027 : les logarithmes des valeurs de "y" ne semblent pas non plus échantillonnés d'une distribution normale
+
+wilcox.test(x,y) # p-value = 0.0007534 : le test de Wilcoxon (également appelé « test de Mann-Whitney ») détecte une différence significative entre "x" et "y" ; mais il affiche également un message d'avertissement : ces jeux de données contiennent des valeurs égales ("36.9" et "39.6" apparaissent 2 fois chacun dans le jeu de données "x"), ce qui empêche le test de calculer des p-values exactes (le test repose sur un classement des valeurs de "x" et "y" par ordre croissant, et les ex-aequos posent un problème d'assignation)
