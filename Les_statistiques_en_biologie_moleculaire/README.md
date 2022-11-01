@@ -1,1 +1,1 @@
-Commandes informatiques présentées dans la vidéo de _Master class_ accessible aux adresses : ???
+Commandes informatiques présentées dans la vidéo de _Master class_ accessible sur [YouTube](https://www.youtube.com/watch?v=h52pOkJdJkA) et sur [le site web de notre équipe](https://www.igh.cnrs.fr/media/videos/herve/Serie_MC_video_1.webm).
