@@ -16,7 +16,7 @@ for (a in unique(age))
 print(paste('  âge =',a,':'))
 print(shapiro.test(values[strain==s & age==a])$p.value)
 }
-} # les p-values du test de Shapiro-Wilk sur chacun des 4 échantillons sont élevées
+} # les p-values du test de Shapiro-Wilk sur chacun des 8 échantillons sont élevées
 library(car)
 leveneTest(values~as.factor(strain)*as.factor(age)) # p-value = 0.8152 : les variances sont homogènes
 
