@@ -1,0 +1,47 @@
+# Below: graphical display
+
+trace=function(n1,n2,m1,m2,s1,s2)
+{
+pop1=rnorm(n1,m1,s1)
+pop2=rnorm(n2,m2,s2)
+out1=hist(pop1,xlim=x_range,breaks=c(min(x_range):max(x_range)))
+out2=hist(pop2,xlim=x_range,breaks=c(min(x_range):max(x_range)))
+y_range=c(0,max(c(out1$counts,out2$counts)))
+
+pval=signif(t.test(pop1,pop2)$p.valu,digits=4)
+pdf(paste('Histograms_',n1,'_vs_',n2,'_with_m1_',m1,'_m2_',m2,'_with_s1_',s1,'_s2_',s2,'.pdf',sep=''),width=7,height=7)
+hist(pop1,xlim=x_range,breaks=c(min(x_range):max(x_range)),ylim=y_range,border='red',xlab="Value",ylab="Number of observations",main=paste('p=',pval,sep=''))
+par(new=T)
+hist(pop2,xlim=x_range,breaks=c(min(x_range):max(x_range)),ylim=y_range,border='green',axes=F,xlab='',ylab='',main='')
+par(new=T)
+x=x_range[1]+(x_range[2]-x_range[1])*c(0:100)/100
+plot(x,dnorm(x,m1,s1),col='red',ty='l',axes=F,xlab='',ylab='')
+par(new=T)
+plot(x,dnorm(x,m2,s2),col='green',ty='l',axes=F,xlab='',ylab='')
+dev.off()
+}
+
+# Above: graphical display
+
+
+
+x_range=c(0,50)
+
+m1=20 # mean of sampled population #1
+m2=25 # mean of sampled population #2
+s1=3 # standard deviation of sampled population #1
+s2=4 # standard deviation of sampled population #2
+n1=3 # number of replicates in sample #1
+n2=3 # number of replicates in sample #2
+
+trace(n1,n2,m1,m2,s1,s2) # Note that this function uses random picking: generated datasets will be different from one command run to the next (hence they will also be different from the examples shown in the slideshow), but they should show the same trend
+n1=30
+n2=30
+trace(n1,n2,m1,m2,s1,s2) # Note that this function uses random picking: generated datasets will be different from one command run to the next (hence they will also be different from the examples shown in the slideshow), but they should show
+ the same trend
+m2=30
+trace(n1,n2,m1,m2,s1,s2) # Note that this function uses random picking: generated datasets will be different from one command run to the next (hence they will also be different from the examples shown in the slideshow), but they should show the same trend
+m2=25
+s1=8
+s2=10
+trace(n1,n2,m1,m2,s1,s2) # Note that this function uses random picking: generated datasets will be different from one command run to the next (hence they will also be different from the examples shown in the slideshow), but they should show the same trend
