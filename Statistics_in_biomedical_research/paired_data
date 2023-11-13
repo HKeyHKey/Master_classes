@@ -1,0 +1,30 @@
+before=c(60,65,68,69,71,72,75,78,82,90,95)
+after=c(58,57,63,65,64,68,74,76,80,85,90)
+
+shapiro.test(before) # p-value = 0.6674 : "before" data points appear to be sampled from a normal distribution
+shapiro.test(after) # p-value = 0.5931 : "after" data points appear to be sampled from a normal distribution
+
+library(car)
+leveneTest(c(before,after),as.factor(c(rep(1,length(before)),rep(2,length(after))))) # p-value = 0.7364 : variances are homogeneous
+
+pval_unpaired=signif(t.test(before,after,var.equal=TRUE)$p.value,digits=4) # p-value = 0.3829 without pairing data
+pval_paired=signif(t.test(before,after,paired=TRUE)$p.value,digits=4) # p-value = 0.0001105 after pairing data
+
+# Graphical display:
+y_range=c(55,100)
+pdf('Unpaired_test.pdf',width=4,height=7)
+plot(1,1,xlim=c(0.5,2.5),ylim=y_range,type='n',xlab='',ylab='Body mass (kg)',axes=F,main=paste('p=',pval_unpaired,sep=''))
+axis(1,labels=c('Before','After'),at=c(1,2))
+axis(2)
+points(rep(1,length(before)),before)
+points(rep(2,length(after)),after)
+dev.off()
+
+pdf('Paired_test.pdf',width=4,height=7)
+plot(1,1,xlim=c(0.5,2.5),ylim=y_range,type='n',xlab='',ylab='Body mass (kg)',axes=F,main=paste('p=',pval_paired,sep=''))
+axis(1,labels=c('Before','After'),at=c(1,2))
+axis(2)
+points(rep(1,length(before)),before)
+points(rep(2,length(after)),after)
+arrows(rep(1.05,length(before)),before,rep(1.95,length(before)),after,length=0.1)
+dev.off()
