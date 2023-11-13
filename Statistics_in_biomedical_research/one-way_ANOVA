@@ -1,0 +1,22 @@
+job=as.factor(c('baker','baker','baker','baker','baker','baker','baker','teacher','teacher','teacher','teacher','teacher','teacher','teacher','teacher','teacher','teacher','policeman','policeman','policeman','policeman','policeman','policeman','policeman','policeman','nurse','nurse','nurse','nurse','nurse','nurse','nurse','nurse'))
+time_TV=c(4.4,0.8,3.4,5.9,1.3,5.0,7.0,1.5,1.7,0.9,1.9,0.5,0.8,0.2,2.0,2.8,1.7,6.6,6.5,4.5,5.8,6.8,4.3,4.6,7.1,3.4,4.0,6.5,4.4,4.2,5.6,6.3,1.8) # invented dataset
+
+# Below: graphical display:
+pdf('Illustration_one-way_ANOVA.pdf',width=6,height=6)
+boxplot(time_TV~job,xlab='Job',ylab='Time spent watching TV (%)')
+dev.off()
+
+# Below: normality and homoscedasticity checks:
+for (p in unique(job))
+{
+print(paste(p,":"))
+print(shapiro.test(time_TV[job==p])$p.value)
+} # Shapiro-Wilk test p-values for each of these 4 samples are high
+library(car)
+leveneTest(time_TV,job) # p-value = 0.08691: variances are homogeneous
+
+# Below: ANOVA analysis:
+summary(aov(time_TV~job)) # p-value = 7.39e-06 for variable "job": there is a significant effect of job
+
+# Below: comparing jobs pairwise:
+pairwise.t.test(time_TV,job,p.adjust.method='BH')
