@@ -1,0 +1,32 @@
+values=c(6.80,10.10,7.90,6.59,12.70,19.00,23.90,17.80,19.00,20.50,8.81,9.01,9.71,11.20,9.35,7.93,7.21,12.40,12.60,6.98,29.00,26.90,30.20,29.90,31.10,26.90,29.50,31.20,31.40,32.20,27.50,29.70,28.20,29.20,27.00,25.90,33.10,30.20,31.60,30.60)
+strain=rep(c(rep('OregonR',5),rep('yw',5),rep('Canton-S',5),rep('Berlin',5)),2)
+age=c(rep(5,20),rep(15,20))
+
+# Below: graphical display:
+pdf('Illustration_two-way_ANOVA.pdf',width=11,height=6)
+boxplot(values~strain+age)
+dev.off()
+
+# Below: displaying dataset:
+data_list=list(strain,age,values)
+names(data_list)=c('Souche','Âge','Valeur')
+print(as.data.frame(data_list))
+
+# Below: normality and homoscedasticity checks:
+for (s in unique(strain))
+{
+print(paste(s,":"))
+for (a in unique(age))
+{
+print(paste('  âge =',a,':'))
+print(shapiro.test(values[strain==s & age==a])$p.value)
+}
+} # Shapiro-Wilk p-values for each of the 8 samples are high
+library(car)
+leveneTest(values~as.factor(strain)*as.factor(age)) # p-value = 0.8152: variances are homogeneous
+
+# Below: two-way ANOVA:
+summary(aov(values~strain+age)) # p-value = 0.000147 for variable "strain" and < 2e-16 for variable "age": each of these two variables seems to have a significant effect on the response
+
+# Because both variables have an effect, it is possible that their interaction has an effect too:
+summary(aov(values~strain*age)) # p-value = 3.17e-07 for variable "strain", < 2e-16 for variable "age", and 6.25e-06 for the interaction between these two variables (it appears that not only age has an effect, strain has an effect, but also, aging affects differently these various strains)
