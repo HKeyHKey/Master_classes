@@ -16,7 +16,7 @@ t.test(x,y) # p-value=0.9005
 ks.test(x,y) # p-value=0.02171
 
 ### Graphical display:
-
+x_display=(0:2000)/100
 pdf('Illustration_ks_test_histogram_x.pdf',width=6,height=6)
 hist(x,n=20,xlim=c(0,20))
 par(new=T);plot(x_display,dnorm(x_display,10,2),ty='l',axes=F,xlab='',ylab='')
